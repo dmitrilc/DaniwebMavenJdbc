@@ -7,13 +7,17 @@ public class Application {
     }
 
     private void setupDb() throws SQLException {
-        final var dbUri = "jdbc:h2:mem:;";
-        final var initScript = "INIT=runscript from 'create.sql';";
+        final var dbUri = "jdbc:h2:mem:;"; //1
+        final var initScript = "INIT=runscript from 'create.sql';"; //2
 
-        try(
-                final var conn = DriverManager.getConnection(dbUri + initScript);
+        try( //2
+                final var conn = DriverManager.getConnection(dbUri + initScript); //3
                 final var query = conn.prepareStatement("SELECT * FROM test");
                 final var rs = query.executeQuery()){
+
+            System.out.println(query.getClass().getName());
+            System.out.println(conn.getClass().getName());
+            System.out.println(rs.getClass().getName());
 
             while(rs.next()){
                 System.out.printf(
